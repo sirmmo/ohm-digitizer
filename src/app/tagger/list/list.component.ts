@@ -23,7 +23,7 @@ export class ListComponent implements OnInit {
 
   archives;
 
-  filter = {};
+  filter: any = {};
 
   constructor(
     private ohm: OhmService,

@@ -33,6 +33,9 @@ export class ListComponent implements OnInit {
     this.router.navigate(['work', type, id]);
   }
 
+  goPage(event) {
+    this.workables = this.getPage(event.pageIndex);
+  }
   getPage(num = 0) {
     this.loading = true;
     return this.ohm.workables(num, this.filter).pipe(tap( (x: any) => {

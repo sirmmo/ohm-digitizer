@@ -80,7 +80,9 @@ const modules = [
     HttpClientModule,
   ],
   exports: [
-    ...modules
+    ...modules,
+    FormsModule,
+
   ]
 })
 export class SharedModule { }
