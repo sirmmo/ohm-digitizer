@@ -1,0 +1,38 @@
+
+<mat-toolbar>
+<h1>Choose Image to Work on</h1>
+<span class="spacer"></span>
+<mat-button-toggle-group multiple  (change)="toggleChange($event)">
+  <mat-button-toggle value="map" aria-label="Text align left">
+    <mat-icon>map</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="text" aria-label="Text align center">
+    <mat-icon>text_snippet</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="picture" aria-label="Text align right">
+    <mat-icon>image</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="movementmap" aria-label="Text align justify">
+    <mat-icon>trending_up</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="view" aria-label="Text align justify">
+    <mat-icon>visibility</mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>
+</mat-toolbar>
+<mat-paginator [length]="count" [pageSize]="30" [pageSizeOptions]="[30]" (page)="goPage($event)"></mat-paginator>
+
+<mat-list>
+<mat-list-item *ngFor="let w of (workables|async)" >
+    <mat-icon mat-list-icon>{{iconfor(w.properties.type)}}</mat-icon>
+    <button mat-button mat-icon-button (click)="go(w.properties.type, w.id)"><mat-icon>{{actionfor(w.properties.type)}}<button mat-button mat-icon-button (click)="go(w.properties.type, w.id)"><mat-icon>b</mat-icon></button>
+</mat-icon></button>
+    <div matLine class="row">
+      <span>{{w.properties.type}}</span>
+    </div>
+    <div matLine class="row">
+      <span>Part of: {{w.image.archive}} - {{w.image.date|json}} - {{w.image.name}}</span>
+      <button mat-button mat-icon-button (click)="tagImage(w.parent)"><mat-icon>edit</mat-icon></button>
+    </div>
+</mat-list-item>
+</mat-list>

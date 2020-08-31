@@ -1,0 +1,36 @@
+
+#lmap, #rmap{
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-width: 50vw;
+    min-height: calc(100vh - 300px);
+
+    cursor: crosshair;
+}
+
+#points{
+    flex-grow:0;
+    flex-shrink: 1;
+    max-height: 160px;
+    overflow:auto;
+}
+#adder {
+  top: 200px;
+  left: calc(50vw - 32px);
+  position: absolute;
+  z-index: 10000;
+
+}
+#saver {
+  top: 270px;
+  left: calc(50vw - 32px);
+  position: absolute;
+  z-index: 10000;
+
+}
+
+.square{
+    width:32px;
+    height: 32px;
+    display: block;
+}

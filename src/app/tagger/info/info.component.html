@@ -1,0 +1,12 @@
+<h1 mat-dialog-header>Metadata</h1>
+<div mat-dialog-content>
+    <table>
+        <tr *ngFor="let kv of meta|keyvalue">
+            <td>{{kv.key}}</td>
+            <td>{{kv.value}}</td>
+        </tr>
+    </table>
+</div>
+<div mat-dialog-actions>
+    <button mat-button>Save Metadata</button>
+</div>

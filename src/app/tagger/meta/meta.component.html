@@ -1,0 +1,24 @@
+<h1 mat-dialog-header>Tag Setup</h1>
+<div mat-dialog-content>
+    <mat-button-toggle-group (change)="changeContent($event)">
+      <mat-button-toggle value="text">Text</mat-button-toggle>
+      <mat-button-toggle value="map">Map</mat-button-toggle>
+      <mat-button-toggle value="movementmap">MovementMap</mat-button-toggle>
+      <mat-button-toggle value="view">View</mat-button-toggle>
+      <mat-button-toggle value="picture">Picture</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div [ngSwitch]="mode">
+      <!-- the same view can be shown in more than one case -->
+      <app-textmeta *ngSwitchCase="'text'"></app-textmeta>
+      <app-mapmeta *ngSwitchCase="'map'"></app-mapmeta>
+      <app-mapmeta *ngSwitchCase="'movementmap'"></app-mapmeta>
+      <app-viewmeta *ngSwitchCase="'view'"></app-viewmeta>
+        <!--<app-picturemeta *ngSwitchCase="picture"></app-picturemeta>-->
+            <!--default case when there are no matches -->
+      <div *ngSwitchDefault></div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="rdata">Save</button>
+    <button mat-button>Cancel</button>
+</div>
