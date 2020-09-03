@@ -5,6 +5,7 @@
             <h1>Image</h1>
             <span class="spacer"></span>
             <button mat-button mat-icon-button><mat-icon>settings</mat-icon></button>
+            <button mat-button mat-icon-button (click)="runGeoref()"><mat-icon>play_arrow</mat-icon></button>
         </mat-toolbar>
         <div id="lmap">lmap</div>
     </div>
@@ -12,15 +13,10 @@
       <mat-toolbar>
         <h1>Reference</h1>
         <span class="spacer"></span>
-            <button mat-button mat-icon-button><mat-icon>settings</mat-icon></button>
+            <button mat-button mat-icon-button><mat-icon>refresh</mat-icon></button>
         <mat-form-field class="example-full-width">
-            <mat-select multiple>
-              <mat-select-trigger>
-                <span *ngIf="options?.length > 1" class="example-additional-selection">
-                  (+{{options.length - 1}} {{options?.length === 2 ? 'other' : 'others'}})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let topping of options" [value]="topping">{{topping}}</mat-option>
+            <mat-select multiple (selectionChange)="setLayers($event)">
+              <mat-option *ngFor="let map of (maps | async)" [value]="map.id">{{map.meta.image.name}} - {{map.meta.image.date?.year}}</mat-option>
             </mat-select>
         </mat-form-field>
       </mat-toolbar>

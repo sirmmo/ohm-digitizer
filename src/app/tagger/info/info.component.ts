@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class InfoComponent implements OnInit {
   meta;
+  id;
 
   constructor(
     public dialogRef: MatDialogRef<InfoComponent>,
@@ -17,7 +18,19 @@ export class InfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.meta = this.data.meta;
+    if (!this.meta.date) {
+      this.meta.date = {};
+    }
+    this.id = this.data.id;
+  }
+
+  save(): void {
+    this.ohm.updateMetadata(this.id, this.meta).subscribe(data => {
+      console.log(data);
+      this.dialogRef.close();
+    });
   }
 
 }

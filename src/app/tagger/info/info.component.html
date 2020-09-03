@@ -1,12 +1,78 @@
 <h1 mat-dialog-header>Metadata</h1>
 <div mat-dialog-content>
-    <table>
-        <tr *ngFor="let kv of meta|keyvalue">
-            <td>{{kv.key}}</td>
-            <td>{{kv.value}}</td>
+    <table *ngIf="meta">
+        <tr>
+            <td>Archive</td>
+            <td>
+                <mat-form-field class="full-width">
+                    <mat-label>Archive</mat-label>
+                    <input matInput disabled [value]="meta.archive">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>
+            <mat-form-field class="full-width">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Name" [(ngModel)]="meta.name">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Url</td>
+          <td>
+            <mat-form-field class="full-width">
+              <mat-label>Url</mat-label>
+              <input matInput placeholder="Name" [(ngModel)]="meta.url">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>
+                <table>
+                    <tr>
+                        <td class="p33-width">
+                            <mat-form-field class="full-width" >
+                                <mat-label>Year</mat-label>
+                                <input matInput placeholder="Year"  [(ngModel)]="meta.date.year">
+                            </mat-form-field>
+                        </td>
+                        <td class="p33-width">
+                            <mat-form-field class="full-width">
+                                <mat-label>Month</mat-label>
+                                <input matInput placeholder="Month" [(ngModel)]="meta.date.month">
+                            </mat-form-field>
+                        </td>
+                        <td class="p33-width">
+                            <mat-form-field class="full-width">
+                                <mat-label>Day</mat-label>
+                                <input matInput placeholder="Day" [(ngModel)]="meta.date.day">
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field class="full-width">
+                                <mat-label>Hour</mat-label>
+                                <input matInput placeholder="Hour" [(ngModel)]="meta.date.hour">
+                            </mat-form-field>
+                        </td>
+                    <td>
+                <mat-form-field class="full-width">
+                    <mat-label>Minute</mat-label>
+                    <input matInput placeholder="Minute" [(ngModel)]="meta.minute">
+                </mat-form-field></td><td>
+                <mat-form-field class="full-width">
+                    <mat-label>Second</mat-label>
+                    <input matInput placeholder="Second" [(ngModel)]="meta.second">
+                </mat-form-field></td></tr>
+                </table>
+            </td>
         </tr>
     </table>
 </div>
 <div mat-dialog-actions>
-    <button mat-button>Save Metadata</button>
+    <button mat-button (click)="save()">Save Metadata</button>
 </div>

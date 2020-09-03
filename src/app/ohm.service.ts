@@ -2,17 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
+import env from '../assets/env.json';
+import { MnDockerService } from '@modalnodes/mn-docker';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OhmService {
 
-  base = 'http://51.15.160.236:9032/';
+  base = env.ENDPOINT;
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private docker: MnDockerService
+  ) { 
+    this.base = docker.getEnv('ENDPOINT');
+  }
 
   imageList(page = 0, query?): Observable<any> {
     return this.http.get<any>(this.base + 'images?p=' + page);
@@ -54,5 +59,17 @@ export class OhmService {
   }
 
 
+  runGeoref(id) {
+    return this.http.get(this.base + 'georef/' + id);
+  }
+
+
+  getPyramids(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'pyramids');
+  }
+
+  updateMetadata(id, meta): Observable<any> {
+    return this.http.post<any>(this.base + 'updateMeta/' + id, meta);
+  }
 
 }

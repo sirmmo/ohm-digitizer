@@ -21,8 +21,10 @@
     "@angular/platform-browser": "~10.0.3",
     "@angular/platform-browser-dynamic": "~10.0.3",
     "@angular/router": "~10.0.3",
+    "@modalnodes/mn-configurator": "0.0.4",
+    "@modalnodes/mn-docker": "0.0.3",
+    "@modalnodes/mn-registry": "0.0.3",
     "leaflet-iiif": "^3.0.0",
-    "ngx-tui-image-editor": "^7.0.2",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

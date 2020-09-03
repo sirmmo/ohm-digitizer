@@ -9,10 +9,10 @@
       <mat-card-title>Upload via file</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <input type="file">
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
+    <button mat-button>Upload</button>
     </mat-card-actions>
   </mat-card>
 </mat-grid-tile>
@@ -22,10 +22,13 @@
     <mat-card-title>Upload via url</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>URL</mat-label>
+      <input matInput>
+    </mat-form-field>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
+    <button mat-button>Upload</button>
   </mat-card-actions>
 </mat-card>
 </mat-grid-tile>
@@ -33,7 +36,7 @@
 <mat-toolbar>
   <h1>Metadata</h1>
 </mat-toolbar>
-<div class="example-container">
+<div class="centered-container">
   <mat-form-field appearance="fill">
     <mat-label>Input</mat-label>
     <input matInput>

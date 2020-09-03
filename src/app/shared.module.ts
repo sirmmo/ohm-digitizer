@@ -34,6 +34,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MnDockerModule } from '@modalnodes/mn-docker';
+import { MnConfiguratorModule } from '@modalnodes/mn-configurator';
 
 
 const modules = [
@@ -78,10 +80,12 @@ const modules = [
     FormsModule,
     ...modules,
     HttpClientModule,
+    MnDockerModule,
   ],
   exports: [
     ...modules,
     FormsModule,
+    MnDockerModule,
 
   ]
 })

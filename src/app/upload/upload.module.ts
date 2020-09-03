@@ -1,17 +1,19 @@
-import { SharedModule } from './../app/shared.module';
+import { SharedModule } from './../shared.module';
+import { UploadRoutingModule } from './upload-routing.module';
 import { UploaderComponent } from './uploader/uploader.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UploaderRoutingModule } from './uploader-routing.module';
 
 
 @NgModule({
-  declarations: [UploaderComponent],
+  declarations: [
+    UploaderComponent
+  ],
   imports: [
     CommonModule,
-    UploaderRoutingModule,
+    UploadRoutingModule,
     SharedModule
   ]
 })
-export class UploaderModule { }
+export class UploadModule { }

@@ -107,6 +107,6 @@ export class TaggerComponent implements OnInit, AfterViewInit {
   }
 
   info() {
-    this.d.open(InfoComponent, {data: {meta: this.meta}});
+    this.d.open(InfoComponent, {data: {meta: this.meta, id: this.id}});
   }
 }

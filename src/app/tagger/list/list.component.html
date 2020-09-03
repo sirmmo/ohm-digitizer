@@ -24,7 +24,7 @@
 <mat-list>
 <mat-list-item *ngFor="let item of (imgList|async)" >
     <mat-icon matListIcon>image</mat-icon>
-    <button mat-button mat-icon-button><mat-icon matListIcon (click)="info(item)">info</mat-icon></button>
+    <button mat-button mat-icon-button><mat-icon matListIcon (click)="info(item.id, item)">info</mat-icon></button>
     <button  mat-button mat-icon-button (click)="go(item.id)"><mat-icon matListIcon>tag</mat-icon></button>
     <div matLine class="row" (click)="go(item.id)">
         <span class="archive">{{item.archive}}</span>

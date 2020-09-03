@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { OhmService } from './../../ohm.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +15,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   lmap;
   rmap;
   
-  options = ['a', 'b', 'c'];
+  maps: Observable<any[]>;
 
   gcps = [];
 
@@ -25,6 +26,8 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   image;
 
   iiifLayer;
+
+  mlayers = [];
   constructor(
     private ar: ActivatedRoute,
     private ohm: OhmService
@@ -32,7 +35,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.id = this.ar.snapshot.params.id;
-
+    this.maps = this.ohm.getPyramids();
   }
 
   ngAfterViewInit(): void {
@@ -67,10 +70,11 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
           console.log(data);
           this.gcps = data.map(x => {
             const rc = this.getRandomColor();
+            x.gcp[1] = Math.abs(x.gcp[1]);
             return [
               rc,
               ...x.gcp,
-              new L.circleMarker({ lng: x.gcp[0] / coeff, lat: x.gcp[1] / coeff }, { color: rc }).addTo(this.lmap),
+              new L.circleMarker({ lng: x.gcp[0] / coeff, lat: - x.gcp[1] / coeff }, { color: rc }).addTo(this.lmap),
               new L.circleMarker({ lng: x.gcp[2], lat: x.gcp[3] }, { color: rc }).addTo(this.rmap)
             ];
           });
@@ -97,7 +101,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
     const data: any[] = [rc];
     this.lmap.on('click', (e) => {
       const lmarker = new L.circleMarker(e.latlng, { color: rc}).addTo(this.lmap);
-      data.push(...[e.latlng.lng * coeff, e.latlng.lat * coeff]);
+      data.push(...[e.latlng.lng * coeff, - e.latlng.lat * coeff]);
       this.lmap.off('click');
       this.rmap.on('click', (e) => {
         const rmarker = new L.circleMarker(e.latlng, { color: rc}).addTo(this.rmap);
@@ -117,6 +121,32 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
     })).subscribe(data => {
       
     });
+  }
+
+  runGeoref(){
+    this.ohm.runGeoref(this.id).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+
+
+  setLayers(event) {
+    console.log(event);
+
+    this.mlayers.map(x=> {
+      this.rmap.removeLayer(x);
+    });
+
+    this.mlayers = [];
+
+    event.value.map(x => {
+      const r = L.tileLayer('https://maps.digitize.openhistorymap.org/' + x + '/{z}/{x}/{y}.png', { tms: true, opacity: 0.8, attribution: '' });  
+      this.mlayers.push(r);
+      this.rmap.addLayer(r);
+    });
+    
+    
   }
 
 }

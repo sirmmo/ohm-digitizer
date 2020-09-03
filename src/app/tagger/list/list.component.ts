@@ -56,7 +56,7 @@ export class ListComponent implements OnInit {
     }));
   }
 
-  info(meta) {
-    this.d.open(InfoComponent, {data: meta});
+  info(id, meta) {
+    this.d.open(InfoComponent, {data: {meta, id}});
   }
 }
