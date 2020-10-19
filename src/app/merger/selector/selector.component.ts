@@ -1,3 +1,5 @@
+import { OhmService } from './../../ohm.service';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./selector.component.scss']
 })
 export class SelectorComponent implements OnInit {
+  ids;
 
-  constructor() { }
+  constructor(
+    private ar: ActivatedRoute,
+    private ohm: OhmService
+  ) { }
 
   ngOnInit(): void {
+    this.ids = this.ar.snapshot.params.ids.split('|');
   }
 
 }

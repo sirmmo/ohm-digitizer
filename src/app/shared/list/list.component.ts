@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { OhmService } from './../ohm.service';
+import { OhmService } from './../../ohm.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';

@@ -1,1 +1,46 @@
-<p>configurator works!</p>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <mat-tab-group>
+            <mat-tab label="Automated">
+                <mat-toolbar>
+                    <h1>Colors</h1>
+                    <span class="spacer"></span>
+                    <button mat-button mat-icon-button (click)="addColor()">
+                 <mat-icon>add</mat-icon>
+               </button>
+
+
+                </mat-toolbar>
+                <mat-list>
+                    <mat-list-item *ngFor="let li of colors">
+                        <div style="width:24px; height:24px;" [style.background]="li.color"></div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-tab>
+            <mat-tab label="Manual">
+
+                <mat-toolbar>
+                    <button mat-button mat-icon-button (click)="draw('point')"><mat-icon>room</mat-icon></button>
+                    <button mat-button mat-icon-button (click)="draw('line')"><mat-icon>share</mat-icon></button>
+                    <button mat-button mat-icon-button (click)="draw('polygon')"><mat-icon>map</mat-icon></button>
+                    <span class="spacer"></span>
+                    <button mat-button mat-icon-button (click)="saveManual()"><mat-icon>save</mat-icon></button>
+                </mat-toolbar>
+                
+            </mat-tab>
+        </mat-tab-group>
+        <mat-list>
+            <mat-list-item *ngFor="let tag of tags">
+                <span>{{tag.properties.type}}</span>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <span class="spacer"></span>
+            <button mat-button mat-icon-button (click)="info()"><mat-icon>info</mat-icon></button>
+            <button mat-button mat-icon-button (click)="saveAutomatic()"><mat-icon>save</mat-icon></button>
+        </mat-toolbar>
+        <div id="map"></div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

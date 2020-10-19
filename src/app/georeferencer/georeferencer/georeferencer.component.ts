@@ -1,7 +1,9 @@
+import { AdvancedComponent } from './../advanced/advanced.component';
 import { Observable } from 'rxjs';
 import { OhmService } from './../../ohm.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 declare const L;
 
@@ -30,6 +32,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   mlayers = [];
   constructor(
     private ar: ActivatedRoute,
+    private d: MatDialog,
     private ohm: OhmService
   ) { }
 
@@ -147,6 +150,21 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
     });
     
     
+  }
+
+  advanced(){
+    this.d.open(AdvancedComponent);
+  }
+
+  refreshMaps() {
+    this.maps = this.ohm.getPyramids();
+  }
+
+  delete(row): void {
+    const idx = this.gcps.indexOf(row);
+    this.gcps.splice(idx, 1);
+    this.lmap.removeLayer(row[5]);
+    this.rmap.removeLayer(row[6]);
   }
 
 }

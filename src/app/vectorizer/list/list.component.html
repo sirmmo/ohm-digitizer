@@ -1,0 +1,22 @@
+<mat-toolbar>
+    <h1>Choose Map to vectorize</h1>
+</mat-toolbar>
+<mat-paginator [length]="count" [pageSize]="30" [pageSizeOptions]="[30]" (page)="goPage($event)"></mat-paginator>
+
+<mat-list>
+    <mat-list-item *ngFor="let w of (pyramids|async)">
+        <mat-icon mat-list-icon>map</mat-icon>
+        <button mat-button mat-icon-button (click)="go('automatic', w.id)">
+            <mat-icon>share</mat-icon>
+        </button>
+        <button mat-button mat-icon-button (click)="go('manual', w.id)">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <div matLine class="row">
+            <span>Part of: {{w.meta.image.archive}} - {{w.meta.image.date|json}} - {{w.meta.image.name}}</span>
+            <button mat-button mat-icon-button (click)="tagImage(w.parent)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+    </mat-list-item>
+</mat-list>

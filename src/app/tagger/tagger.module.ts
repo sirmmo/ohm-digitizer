@@ -9,11 +9,10 @@ import { MapmetaComponent } from './mapmeta/mapmeta.component';
 import { TextmetaComponent } from './textmeta/textmeta.component';
 import { ViewmetaComponent } from './viewmeta/viewmeta.component';
 import { MetaComponent } from './meta/meta.component';
-import { InfoComponent } from './info/info.component';
 
 
 @NgModule({
-  declarations: [TaggerComponent, ListComponent, MapmetaComponent, TextmetaComponent, ViewmetaComponent, MetaComponent, InfoComponent],
+  declarations: [TaggerComponent, ListComponent, MapmetaComponent, TextmetaComponent, ViewmetaComponent, MetaComponent],
   imports: [
     CommonModule,
     TaggerRoutingModule,

@@ -1,4 +1,4 @@
-import { InfoComponent } from './../info/info.component';
+import { InfoComponent } from './../../shared/info/info.component';
 import { Observable } from 'rxjs';
 import { OhmService } from './../../ohm.service';
 import { Component, OnInit } from '@angular/core';

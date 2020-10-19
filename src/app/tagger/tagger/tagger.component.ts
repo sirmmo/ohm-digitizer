@@ -1,4 +1,4 @@
-import { InfoComponent } from './../info/info.component';
+import { InfoComponent } from './../../shared/info/info.component';
 import { OhmService } from './../../ohm.service';
 import { MetaComponent } from './../meta/meta.component';
 import { Component, OnInit, AfterViewInit } from '@angular/core';

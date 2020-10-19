@@ -4,7 +4,7 @@
         <mat-toolbar>
             <h1>Image</h1>
             <span class="spacer"></span>
-            <button mat-button mat-icon-button><mat-icon>settings</mat-icon></button>
+            <button mat-button mat-icon-button (click)="advanced()"><mat-icon>settings</mat-icon></button>
             <button mat-button mat-icon-button (click)="runGeoref()"><mat-icon>play_arrow</mat-icon></button>
         </mat-toolbar>
         <div id="lmap">lmap</div>
@@ -13,7 +13,7 @@
       <mat-toolbar>
         <h1>Reference</h1>
         <span class="spacer"></span>
-            <button mat-button mat-icon-button><mat-icon>refresh</mat-icon></button>
+            <button mat-button mat-icon-button (click)="refreshMaps()"><mat-icon>refresh</mat-icon></button>
         <mat-form-field class="example-full-width">
             <mat-select multiple (selectionChange)="setLayers($event)">
               <mat-option *ngFor="let map of (maps | async)" [value]="map.id">{{map.meta.image.name}} - {{map.meta.image.date?.year}}</mat-option>

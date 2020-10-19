@@ -1,5 +1,16 @@
-.centered-container {
+.centered {
     width: 500px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.structure{
+    height: 200px;
+    display: block;
+}
+
+.bordered {
+    border: 5px dashed #dadada;
+    border-radius: 10px;
+    height: 190px;
 }

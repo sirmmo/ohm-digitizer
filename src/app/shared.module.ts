@@ -1,3 +1,5 @@
+import { ListComponent } from './shared/list/list.component';
+import { InfoComponent } from './shared/info/info.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -31,12 +33,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MnDockerModule } from '@modalnodes/mn-docker';
 import { MnConfiguratorModule } from '@modalnodes/mn-configurator';
-
+import { InfoboxComponent } from './shared/infobox/infobox.component';
+import { MnAuthModule } from './mn-auth/mn-auth.module';
 
 const modules = [
   MatCheckboxModule,
@@ -70,23 +74,30 @@ const modules = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
+  MatTreeModule,
 
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+    ListComponent,
+    InfoComponent,
+    InfoboxComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ...modules,
     HttpClientModule,
     MnDockerModule,
+    MnAuthModule
   ],
   exports: [
     ...modules,
     FormsModule,
     MnDockerModule,
-
+    InfoboxComponent
   ]
 })
 export class SharedModule { }

@@ -1,3 +1,4 @@
+import { MnAuthService } from './../../mn-auth/mn-auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private mna: MnAuthService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  social(social: string): void {
+    this.mna.socialLogin(social);
   }
 
 }
