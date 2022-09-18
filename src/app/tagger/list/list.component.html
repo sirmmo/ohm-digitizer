@@ -1,5 +1,6 @@
 <mat-toolbar>
-<h1>Choose an uploaded Image to Tag</h1>
+<h1>Tag image</h1>
+<button mat-icon-button (click)="uploadDialog()"><mat-icon>add</mat-icon></button>
 <div class="spacer"></div>
 <div class="spacer"></div>
 <div class="spacer"></div>
@@ -8,16 +9,16 @@
 <div class="spacer"></div>
 <div class="spacer"></div>
 <div class="spacer"></div>
+
 <mat-form-field>
     <mat-label>Select Archive</mat-label>
-    <mat-select [(ngModel)]='filter.archive'>
-        <mat-option *ngFor="let archive of (archives|async)" [value]="archive">
-            {{archive}}
+    <mat-select [(ngModel)]='filter.archive' [multiple]="true">
+        <mat-option *ngFor="let archive of (archives|async)" [value]="archive.id">
+            {{archive.name}}
         </mat-option>
     </mat-select>
 </mat-form-field>
-<div class="spacer"></div>
-<mat-checkbox class="example-margin" [(ngModel)]="filter.all">Show all</mat-checkbox>
+<button mat-icon-button (click)="search()"><mat-icon>search</mat-icon></button>
 </mat-toolbar>
 <mat-paginator [length]="count" [pageSize]="30" [pageSizeOptions]="[30]" (page)="goPage($event)"></mat-paginator>
 <mat-progress-bar *ngIf="loading"></mat-progress-bar>
@@ -27,9 +28,9 @@
     <button mat-button mat-icon-button><mat-icon matListIcon (click)="info(item.id, item)">info</mat-icon></button>
     <button  mat-button mat-icon-button (click)="go(item.id)"><mat-icon matListIcon>tag</mat-icon></button>
     <div matLine class="row" (click)="go(item.id)">
-        <span class="archive">{{item.archive}}</span>
-        <span class="date">{{item.date?.year}}-{{item.date?.month}}-{{item.date?.day}}</span>
         <span class="name">{{item.name}}</span>
+        <span class="date">{{item.from_time}}-{{item.to_time}}</span>
+        <span class="archive"><span *ngFor="let tag of item.tags">{{tag.name}}</span></span>
         <span class="spacer"></span>
     </div>
     <span matLine class="file" (click)="go(item.id)">{{item.file}}</span>

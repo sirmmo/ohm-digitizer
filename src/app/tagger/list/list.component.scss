@@ -1,10 +1,12 @@
 .archive {
   width: 400px;
   display: inline-block;
+  font-size: small; 
+  padding-right: 10px;
 }
 .date , 
 .name
 {
-    width: 100px;
+    width: 150px;
     display: inline-block;
 }

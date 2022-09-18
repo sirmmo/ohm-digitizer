@@ -1,15 +1,18 @@
-<mat-toolbar>
-  <span>OHM Digitizer</span>
+<mat-toolbar color="primary">
+  <button mat-icon-button><mat-icon>menu</mat-icon></button>
+  <span>OHM PHToolkit - Digitizer</span>
   
   <nav mat-tab-nav-bar >
-    <a mat-tab-link *ngFor="let link of links" (click)="go(link.route)" [active]="activeLink == link.route"> {{link.label}} </a>
+    <ng-container *ngFor="let link of links">
+      <a mat-tab-link *ngIf="link.enabled" (click)="go(link.route)" [active]="activeLink == link.route"> {{link.label}} </a>
+    </ng-container>
   </nav>
   <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="menu">{{user.username}}</button>
+  <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
 
 </mat-toolbar>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item><mat-icon>settings</mat-icon>Profile</button>
+    <button mat-menu-item><mat-icon>settings</mat-icon>{{user.username}}</button>
     <mat-divider></mat-divider>
     <button mat-menu-item><mat-icon>logout</mat-icon>Logout</button>
   </mat-menu>

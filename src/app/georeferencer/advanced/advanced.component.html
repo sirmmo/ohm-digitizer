@@ -2,11 +2,11 @@
 <div mat-dialog-content>
         <mat-form-field class="full-width">
           <mat-label>Interpolation</mat-label>
-          <mat-select>
+          <mat-select [(ngModel)]="data.interpolation">
               <mat-option *ngFor="let o of options" [value]="o.val">{{o.label}}</mat-option>
           </mat-select>
         </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="save()">Ok</button>
+  <button mat-button (click)="save(data)">Ok</button>
 </div>

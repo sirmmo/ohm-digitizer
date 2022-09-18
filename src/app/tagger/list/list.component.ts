@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { UploaderComponent } from 'src/app/upload/uploader/uploader.component';
 
 @Component({
   selector: 'app-list',
@@ -48,15 +49,24 @@ export class ListComponent implements OnInit {
 
   getPage(num = 0) {
     this.loading = true;
-    return this.ohm.imageList(num).pipe(tap(x => {
+    return this.ohm.imageList(num, this.filter).pipe(tap(x => {
       this.count = x.count;
       this.loading = false;
     }), map(x => {
-      return x.results;
+      return x;
     }));
   }
 
   info(id, meta) {
     this.d.open(InfoComponent, {data: {meta, id}});
   }
+
+  uploadDialog(){
+    this.d.open(UploaderComponent);
+  }
+
+  search(){
+    this.imgList=this.getPage()
+  }
+
 }

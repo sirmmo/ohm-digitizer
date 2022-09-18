@@ -9,6 +9,12 @@ import { MnDockerService } from '@modalnodes/mn-docker';
   providedIn: 'root'
 })
 export class OhmService {
+  getWHG(id: any) {
+    return this.http.get(this.base+'workables/'+id+'/whg')
+  }
+  deleteGCP(id: any) {
+    return this.http.delete(this.base+'deleteGcp?id='+id);
+  }
 
   base = env.ENDPOINT;
   txbase = env.TAXONOMY_ENDPOINT;
@@ -87,8 +93,8 @@ export class OhmService {
   }
 
 
-  imageList(page = 0, query?): Observable<any> {
-    return this.http.get<any>(this.base + 'images?p=' + page);
+  imageList(page = 0, query?: any): Observable<any> {
+    return this.http.get<any>(this.base + 'images', {params: {p: page.toString(), filter: JSON.stringify(query)}});
   }
 
   archives(): Observable<string[]> {
@@ -96,7 +102,7 @@ export class OhmService {
   }
 
   getImage(id): Observable<any> {
-    return this.http.get(this.base + 'image/' + id);
+    return this.http.get(this.base + 'images/' + id);
   }
 
   saveTags(id, featurecollection, meta, iiif): Observable<any> {
@@ -105,13 +111,13 @@ export class OhmService {
 
   workables(page = 0, query?): Observable<any[]> {
     return this.http.get<any[]>(this.base + 'workables', { 
-      params: new HttpParams().append('p', page.toString()).append('type', JSON.stringify(query))
+      params: {p: page.toString(),filter: JSON.stringify(query)}
     });
   }
 
 
   getWorkable(id): Observable<any> {
-    return this.http.get(this.base + 'workable/' + id);
+    return this.http.get(this.base + 'workables/' + id);
   }
 
   storeGcps(id, gcps): Observable<any> {
@@ -127,13 +133,13 @@ export class OhmService {
   }
 
 
-  runGeoref(id) {
-    return this.http.get(this.base + 'georef/' + id);
+  runGeoref(id, interpolation) {
+    return this.http.get(this.base + 'georef/' + id, {params: {interpolation:interpolation}});
   }
 
 
-  getPyramids(): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'pyramids');
+  getPyramids(query?): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'pyramids', {params: {filter:JSON.stringify(query)}});
   }
 
   getPyramid(id): Observable<any> {

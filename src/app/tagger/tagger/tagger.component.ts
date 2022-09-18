@@ -39,7 +39,7 @@ export class TaggerComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.ohm.getImage(this.id).subscribe(meta => {
       this.meta = meta;
-      const iiifUrl = 'https://iiif.openhistorymap.org/' + this.meta.file + '/info.json';
+      const iiifUrl = 'https://iiif.openhistorymap.org/iiif/3/' + this.meta.file.replaceAll('/', "%2F") + '/info.json';
       this.ohm.getiiif(iiifUrl).subscribe(iiif => {
         this.iiif = iiif;
 

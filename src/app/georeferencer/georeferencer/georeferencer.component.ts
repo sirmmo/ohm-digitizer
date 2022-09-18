@@ -4,7 +4,7 @@ import { OhmService } from './../../ohm.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
+import { KnownComponent } from './../known/known.component';
 declare const L;
 
 @Component({
@@ -16,7 +16,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
 
   lmap;
   rmap;
-  
+  interpolation = "near";
   maps: Observable<any[]>;
 
   gcps = [];
@@ -38,7 +38,6 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.id = this.ar.snapshot.params.id;
-    this.maps = this.ohm.getPyramids();
   }
 
   ngAfterViewInit(): void {
@@ -52,6 +51,22 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
     L.control.scale().addTo(this.rmap);
     this.ohm.getWorkable(this.id).subscribe(meta => {
       this.image = meta;
+      let pd = this.image.meta.filter(x=>x.meta_type==="period");
+      if (pd.length>0){
+        pd = pd[0];
+      } else{
+        pd = {
+          time_from: -8000, time_to: 2500
+        }
+      }
+      let tgs = this.image.tags.filter(x=>x.geo_x !== null);
+      if (tgs.length > 0){
+        tgs = tgs[0];
+      } else {
+        tgs = null;
+      }
+      
+      this.maps = this.ohm.getPyramids({area: tgs, from: pd.time_from, to: pd.time_to});
 
       this.lmap = L.map('lmap', {
         center: [0, 0],
@@ -61,7 +76,7 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
         maxzoom: 19,
       });
 
-      const iiifUrl = 'https://iiif.openhistorymap.org/' + this.image.file + '/info.json';
+      const iiifUrl = 'https://iiif.openhistorymap.org/iiif/3/' + this.image.file.replaceAll("/", "%2F") + '/info.json';
 
       this.iiifLayer =  L.tileLayer.iiif(iiifUrl);
       this.iiifLayer.addTo(this.lmap);
@@ -72,14 +87,11 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
           const coeff = Math.pow(2, this.iiifLayer.maxZoom);
           console.log(data);
           this.gcps = data.map(x => {
-            const rc = this.getRandomColor();
-            x.gcp[1] = Math.abs(x.gcp[1]);
-            return [
-              rc,
-              ...x.gcp,
-              new L.circleMarker({ lng: x.gcp[0] / coeff, lat: - x.gcp[1] / coeff }, { color: rc }).addTo(this.lmap),
-              new L.circleMarker({ lng: x.gcp[2], lat: x.gcp[3] }, { color: rc }).addTo(this.rmap)
-            ];
+            const rc = x.color;
+            x.image_y = Math.abs(x.image_y);
+            x.lmarker = L.circleMarker({ lng: x.image_x / coeff, lat: - x.image_y / coeff }, { color: rc }).addTo(this.lmap);
+            x.rmarker = L.circleMarker({ lng: x.geo_x, lat: x.geo_y }, { color: rc }).addTo(this.rmap);
+            return x;
           });
         });
       }, 500);
@@ -101,17 +113,22 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   addGCP(){
     const coeff = Math.pow(2, this.iiifLayer.maxZoom);
     const rc = this.getRandomColor();
-    const data: any[] = [rc];
+    const data: {} = { color:rc};
     this.lmap.on('click', (e) => {
       const lmarker = new L.circleMarker(e.latlng, { color: rc}).addTo(this.lmap);
-      data.push(...[e.latlng.lng * coeff, - e.latlng.lat * coeff]);
+      data['image_x'] = e.latlng.lng * coeff;
+      data['image_y'] = - e.latlng.lat * coeff;
       this.lmap.off('click');
+      lmarker.on('click', (e)=>{
+        this.d.open(KnownComponent, )
+      })
       this.rmap.on('click', (e) => {
         const rmarker = new L.circleMarker(e.latlng, { color: rc}).addTo(this.rmap);
-        data.push(...[e.latlng.lng, e.latlng.lat]);
+        data['geo_x'] = e.latlng.lng;
+        data['geo_y'] = e.latlng.lat;
         this.rmap.off('click');
-        data.push(lmarker);
-        data.push(rmarker);
+        data['lmarker'] = lmarker;
+        data['rmarker'] = rmarker;
         console.log(data);
         this.gcps.push(data);
       });
@@ -120,14 +137,22 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
 
   save() {
     this.ohm.storeGcps(this.id, this.gcps.map(x => {
-      return [x[1], x[2], x[3], x[4]];
+      return {
+        image_id: this.id,
+        color: x.color,
+        author: "sirmmo",
+        image_x: x.image_x,
+        image_y: x.image_y,
+        geo_x: x.geo_x,
+        geo_y: x.geo_y,
+      };
     })).subscribe(data => {
       
     });
   }
 
   runGeoref(){
-    this.ohm.runGeoref(this.id).subscribe(data => {
+    this.ohm.runGeoref(this.id, this.interpolation).subscribe(data => {
       console.log(data);
     });
   }
@@ -153,7 +178,11 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   }
 
   advanced(){
-    this.d.open(AdvancedComponent);
+    let ref = this.d.open(AdvancedComponent, {data: {interpolation:this.interpolation}});
+    ref.afterClosed().subscribe(data =>{
+      console.log(data);
+      this.interpolation = data.interpolation;
+    })
   }
 
   refreshMaps() {
@@ -161,10 +190,16 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
   }
 
   delete(row): void {
-    const idx = this.gcps.indexOf(row);
-    this.gcps.splice(idx, 1);
-    this.lmap.removeLayer(row[5]);
-    this.rmap.removeLayer(row[6]);
+    this.ohm.deleteGCP(row.id).subscribe(data=>{
+      const idx = this.gcps.indexOf(row);
+      this.gcps.splice(idx, 1);
+      this.lmap.removeLayer(row.lmarker);
+      this.rmap.removeLayer(row.rmarker);
+    })
+  }
+
+  getWHG(){
+    this.ohm.getWHG(this.id).subscribe();
   }
 
 }

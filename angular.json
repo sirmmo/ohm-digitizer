@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "ohm-digitizer"
+  "defaultProject": "ohm-digitizer",
+  "cli": {
+    "analytics": false
+  }
 }

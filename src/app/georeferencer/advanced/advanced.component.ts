@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-advanced',
@@ -26,13 +27,17 @@ export class AdvancedComponent implements OnInit {
 
   ]
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<AdvancedComponent> ,
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
   }
 
 
-  save(){
-    
+  save(data){
+    this.dialogRef.close(data);
   }
 }

@@ -8,12 +8,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AppComponent {
   links = [
-    { label: 'Upload', route: 'upload' },
-    { label: 'Tag Image Areas', route: 'tag' },
-    { label: 'Work Image', route: 'list' },
-    { label: 'Merger', route: 'merger' },
-    { label: 'Vectorize', route: 'vectorize' },
-    { label: 'OHMify', route: 'ohmify' },
+    //{ label: 'Upload', route: 'upload' },
+    { label: 'Cut images', route: 'tag', enabled:true},
+    { label: 'Work Image', route: 'list', enabled:true },
+    { label: 'Merger', route: 'merger', enabled:false },
+    { label: 'Vectorize', route: 'vectorize', enabled:false },
+    { label: 'OHMify', route: 'ohmify', enabled:false },
   ]
   title = 'ohm-digitizer';
 

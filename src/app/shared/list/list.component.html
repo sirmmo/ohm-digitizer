@@ -2,6 +2,17 @@
 <mat-toolbar>
 <h1>Choose Image to Work on</h1>
 <span class="spacer"></span>
+
+<mat-form-field>
+  <mat-label>Select Archive</mat-label>
+  <mat-select [(ngModel)]='filter.archive' [multiple]="true">
+      <mat-option *ngFor="let archive of (archives|async)" [value]="archive.id">
+          {{archive.name}}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-icon-button (click)="search()"><mat-icon>search</mat-icon></button>
+
 <mat-button-toggle-group multiple  (change)="toggleChange($event)">
   <mat-button-toggle value="map" aria-label="Text align left">
     <mat-icon>map</mat-icon>
@@ -24,15 +35,16 @@
 
 <mat-list>
 <mat-list-item *ngFor="let w of (workables|async)" >
-    <mat-icon mat-list-icon>{{iconfor(w.properties.type)}}</mat-icon>
-    <button mat-button mat-icon-button (click)="go(w.properties.type, w.id)"><mat-icon>{{actionfor(w.properties.type)}}<button mat-button mat-icon-button (click)="go(w.properties.type, w.id)"><mat-icon>b</mat-icon></button>
-</mat-icon></button>
-    <div matLine class="row">
-      <span>{{w.properties.type}}</span>
-    </div>
-    <div matLine class="row">
-      <span>Part of: {{w.image.archive}} - {{w.image.date|json}} - {{w.image.name}}</span>
+    <mat-icon mat-list-icon>{{iconfor(w.image_type)}}</mat-icon>
+    <button mat-button mat-icon-button (click)="go(w.image_type, w.id)">
+      <mat-icon>{{actionfor(w.image_type)}}</mat-icon>
+    </button>
+    <h3  matLine class="row">
+      <span>{{w.name}}</span>
+    </h3 >
+    <p matLine class="row">
+      <span>Part of: </span><span *ngFor="let t of w.tags" class="tag"><i class="fa fa-fw fa-tag"></i>{{t.name}}</span> - <span>{{w.from_time|json}} </span>
       <button mat-button mat-icon-button (click)="tagImage(w.parent)"><mat-icon>edit</mat-icon></button>
-    </div>
+    </p>
 </mat-list-item>
 </mat-list>

@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
 
   workables: Observable<any[]>;
 
+  archives;
 
   loading;
 
@@ -27,6 +28,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.workables = this.getPage();
+    this.archives = this.ohm.archives();
   }
 
   go(type, id): void{
@@ -42,7 +44,7 @@ export class ListComponent implements OnInit {
       this.count = x.count;
       this.loading = false;
     }), map(x => {
-      return x.results;
+      return x;
     }));
   }
 
@@ -74,10 +76,9 @@ export class ListComponent implements OnInit {
 
   toggleChange(ev){
     if (ev.value.length > 0) {
-      this.filter['properties.type'] = {$in: ev.value};
-      console.log(this.filter);
+      this.filter['type'] = ev.value;
     } else {
-      delete this.filter['properties.type'];
+      delete this.filter['type'];
     }
     this.workables = this.getPage();
   }
@@ -87,4 +88,7 @@ export class ListComponent implements OnInit {
     this.router.navigate(['tag', id]);
   }
 
+  search(){
+    this.workables=this.getPage()
+  }
 }
