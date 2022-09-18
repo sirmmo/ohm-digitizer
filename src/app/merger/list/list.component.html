@@ -1,0 +1,14 @@
+<mat-toolbar>
+    <h1>Choose Maps to merge</h1>
+    <span class="spacer"></span>
+    <button mat-button (click)="prepareMerge(tomerge.selectedOptions.selected)">Merge</button>
+</mat-toolbar>
+<mat-paginator [length]="count" [pageSize]="30" [pageSizeOptions]="[30]" (page)="goPage($event)"></mat-paginator>
+
+<mat-selection-list #tomerge>
+    <mat-list-option *ngFor="let w of (pyramids|async)" [value]="w.id">
+        <div matLine class="row">
+            <span>Part of: {{w.meta.image.archive}} - {{w.meta.image.date|json}} - {{w.meta.image.name}}</span>
+        </div>
+    </mat-list-option>
+</mat-selection-list>

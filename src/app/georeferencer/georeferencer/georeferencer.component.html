@@ -1,0 +1,55 @@
+<div class="column">
+<div class="row">
+    <div class="column">
+        <mat-toolbar>
+            <h1>Image</h1>
+            <span class="spacer"></span>
+            <button mat-button mat-icon-button (click)="advanced()"><mat-icon>settings</mat-icon></button>
+            <button mat-button mat-icon-button (click)="runGeoref()"><mat-icon>play_arrow</mat-icon></button>
+            <button mat-button mat-icon-button (click)="getWHG()"><mat-icon>download</mat-icon></button>
+        </mat-toolbar>
+        <div id="lmap"></div>
+    </div>
+    <div class="column">
+      <mat-toolbar>
+        <h1>Reference</h1>
+        <span class="spacer"></span>
+            <button mat-button mat-icon-button (click)="refreshMaps()"><mat-icon>refresh</mat-icon></button>
+        <mat-form-field class="example-full-width">
+            <mat-select multiple (selectionChange)="setLayers($event)">
+              <mat-option *ngFor="let map of (maps | async)" [value]="map.id">{{map.meta.image.name}} - {{map.meta.image.date?.year}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </mat-toolbar>
+      <div id="rmap"></div>
+    </div>
+</div>
+<button mat-button mat-fab id="adder" (click)="addGCP()"><mat-icon>add</mat-icon></button>
+<button mat-button mat-fab id="saver" (click)="save()" [disabled]="gcps.length<mingcps"><mat-icon>save</mat-icon></button>
+<div id="points">
+    <div id="points_inner">
+    <table width="100%">
+        <tr>
+            <th width="36" ></th>
+            <th width="36">Color</th>
+            <th>Image X</th>
+            <th>Image Y</th>
+            <th>Map X</th>
+            <th>Map Y</th>
+            <th>Labels</th>
+            <th width="36"></th>
+        </tr>
+        <tr *ngFor="let row of gcps">
+            <td><button mat-button mat-icon-button (click)="delete(row)"><mat-icon>delete</mat-icon></button></td>
+            <td><div class="square" [style.backgroundColor]="row.color"></div></td>
+            <td>{{row.image_x}}</td>
+            <td>{{row.image_y}}</td>
+            <td>{{row.geo_x}}</td>
+            <td>{{row.geo_y}}</td>
+            <td><span *ngFor="let l of row.labels">{{l.named_place}}</span></td>
+            <td><button mat-button mat-icon-button (click)="editRefs()"><mat-icon>label</mat-icon></button></td>
+        </tr>
+    </table>
+    </div>
+</div>
+</div>

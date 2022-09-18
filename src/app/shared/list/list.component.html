@@ -1,0 +1,50 @@
+
+<mat-toolbar>
+<h1>Choose Image to Work on</h1>
+<span class="spacer"></span>
+
+<mat-form-field>
+  <mat-label>Select Archive</mat-label>
+  <mat-select [(ngModel)]='filter.archive' [multiple]="true">
+      <mat-option *ngFor="let archive of (archives|async)" [value]="archive.id">
+          {{archive.name}}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-icon-button (click)="search()"><mat-icon>search</mat-icon></button>
+
+<mat-button-toggle-group multiple  (change)="toggleChange($event)">
+  <mat-button-toggle value="map" aria-label="Text align left">
+    <mat-icon>map</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="text" aria-label="Text align center">
+    <mat-icon>text_snippet</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="picture" aria-label="Text align right">
+    <mat-icon>image</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="movementmap" aria-label="Text align justify">
+    <mat-icon>trending_up</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="view" aria-label="Text align justify">
+    <mat-icon>visibility</mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>
+</mat-toolbar>
+<mat-paginator [length]="count" [pageSize]="30" [pageSizeOptions]="[30]" (page)="goPage($event)"></mat-paginator>
+
+<mat-list>
+<mat-list-item *ngFor="let w of (workables|async)" >
+    <mat-icon mat-list-icon>{{iconfor(w.image_type)}}</mat-icon>
+    <button mat-button mat-icon-button (click)="go(w.image_type, w.id)">
+      <mat-icon>{{actionfor(w.image_type)}}</mat-icon>
+    </button>
+    <h3  matLine class="row">
+      <span>{{w.name}}</span>
+    </h3 >
+    <p matLine class="row">
+      <span>Part of: </span><span *ngFor="let t of w.tags" class="tag"><i class="fa fa-fw fa-tag"></i>{{t.name}}</span> - <span>{{w.from_time|json}} </span>
+      <button mat-button mat-icon-button (click)="tagImage(w.parent)"><mat-icon>edit</mat-icon></button>
+    </p>
+</mat-list-item>
+</mat-list>

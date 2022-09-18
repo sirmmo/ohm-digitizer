@@ -1,0 +1,155 @@
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <ng-container *ngIf="shownFeature">
+            <mat-toolbar>
+                <h1>Feature</h1>
+                <span class="spacer"></span>
+                <button mat-button mat-icon-button (click)="save()">
+              <mat-icon>save</mat-icon>
+            </button>
+                <button mat-button mat-icon-button (click)="unselect()">
+              <mat-icon>close</mat-icon>
+            </button>
+            </mat-toolbar>
+            <table mat-table mat-compact-table [dataSource]="rows" style="width:100%" class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Property </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.name}}
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Value </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [value]="element.value" [(ngModel)]="featureData[element.name]">
+                        </mat-form-field>
+
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="acts">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button mat-icon-button (click)="save()" [disabled]="element.name !== 'wikidata'">
+                        <mat-icon>link</mat-icon>
+                    </button><button mat-button mat-icon-button [disabled]="element.required" (click)="delete(element)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name','value', 'acts']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name','value', 'acts'];"></tr>
+            </table>
+
+            {{featureData|json}}
+
+        </ng-container>
+
+        <ng-container *ngIf="!shownFeature">
+            <mat-toolbar>
+                <h1>Mass Conversion</h1>
+                <span class="spacer"></span>
+
+                <button mat-button mat-icon-button (click)="upload()">
+                <mat-icon>cloud</mat-icon>
+              </button>
+            </mat-toolbar>
+            <table mat-table mat-compact-table [dataSource]="conversions" style="width:100%" class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Property </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.name}}
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Map To </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" matInput [(ngModel)]="conversion[element.name]" [disabled]="!element.delete" [matAutocomplete]="cols">
+                            <mat-autocomplete #cols="matAutocomplete">
+                                <mat-option *ngFor="let opt of addRows" [value]="opt.name">{{opt.name}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="acts">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button mat-icon-button (click)="deleteMass(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name','value', 'acts']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name','value', 'acts'];"></tr>
+            </table>
+
+            {{conversion|json}}
+            <table mat-table #fixTable mat-compact-table [dataSource]="fixeds" style="width:100%" class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Property </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" matInput [(ngModel)]="element.name" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let opt of addRows" [value]="opt.name">{{opt.name}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Value </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="fixations[element.name]">
+                        </mat-form-field>
+
+                    </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="acts">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <button mat-button mat-icon-button (click)="addFixed()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </th>
+                    <td mat-cell *matCellDef="let element"></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name','value', 'acts']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name','value', 'acts'];"></tr>
+            </table>
+
+            {{fixations|json}}
+        </ng-container>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <button [disabled]="!shownFeature" mat-button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>menu</mat-icon>
+            </button>
+            <span class="spacer"></span>
+            <button mat-button mat-icon-button (click)="info()">
+        <mat-icon>info</mat-icon>
+        </button>
+        </mat-toolbar>
+        <div id="map"></div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="convertPolyToLines()">Convert Polygon to Lines</button>
+    <button mat-menu-item (click)="convertPolygonToPoints()">Convert Polygon to Points</button>
+    <button mat-menu-item (click)="convertLineToPoints()">Convert Line to Points</button>
+</mat-menu>

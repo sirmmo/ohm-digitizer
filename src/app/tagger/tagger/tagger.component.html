@@ -1,0 +1,21 @@
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <mat-toolbar>
+                    <h1>Areas</h1>
+        </mat-toolbar>
+        <mat-list>
+            <mat-list-item *ngFor="let tag of tags">
+                <span>{{tag.properties.type}}</span>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <span>{{meta?.file}}</span>
+            <span class="spacer"></span>
+            <button mat-button mat-icon-button (click)="info()"><mat-icon>info</mat-icon></button>
+            <button mat-button mat-icon-button (click)="save()"><mat-icon>save</mat-icon></button>
+        </mat-toolbar>
+        <div id="iiif-map"></div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

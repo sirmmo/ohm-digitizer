@@ -1,0 +1,37 @@
+<mat-toolbar>
+    <h1>Upload</h1>
+</mat-toolbar>
+<div class="centered" *ngIf="!uploaded">
+    <mat-tab-group>
+        <mat-tab label="Upload from File">
+            <div class="structure bordered" (click)="selectFile()"></div>
+            <input #up type="file" style="display: none" (change)="upFile()">
+        </mat-tab>
+        <mat-tab label="Upload from Url">
+            <div class="structure ">
+                <mat-form-field>
+                    <input matInput>
+                </mat-form-field>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<mat-toolbar>
+    <span class="spacer"></span>
+    <button mat-button mat-icon-button><mat-icon>cloud</mat-icon></button>
+    <span class="spacer"></span>
+
+</mat-toolbar>
+<mat-toolbar *ngIf="id">
+    <h1>Metadata</h1>
+</mat-toolbar>
+
+<div class="centered" *ngIf="id">
+    <ohm-info [id]="id" [form]="form" [file]="file"></ohm-info>
+</div>
+<mat-toolbar *ngIf="id">
+    <span class="spacer"></span>
+    <button mat-button mat-icon-button [disabled]="!saveable" (click)="save()"><mat-icon>save</mat-icon></button>
+    <span class="spacer"></span>
+
+</mat-toolbar>
