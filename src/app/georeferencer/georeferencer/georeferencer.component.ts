@@ -5,6 +5,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { KnownComponent } from './../known/known.component';
+import { RefsComponent } from './../refs/refs.component';
 declare const L;
 
 @Component({
@@ -200,6 +201,10 @@ export class GeoreferencerComponent implements OnInit, AfterViewInit {
 
   getWHG(){
     this.ohm.getWHG(this.id).subscribe();
+  }
+
+  editRefs(){
+    this.d.open(RefsComponent)
   }
 
 }

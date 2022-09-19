@@ -47,7 +47,7 @@
             <td>{{row.geo_x}}</td>
             <td>{{row.geo_y}}</td>
             <td><span *ngFor="let l of row.labels">{{l.named_place}}</span></td>
-            <td><button mat-button mat-icon-button><mat-icon>label</mat-icon></button></td>
+            <td><button mat-button mat-icon-button (click)="editRefs()"><mat-icon>label</mat-icon></button></td>
         </tr>
     </table>
     </div>

@@ -29,7 +29,7 @@ export class AdvancedComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AdvancedComponent> ,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
+    @Inject(MAT_DIALOG_DATA) public data: any = {interpolation:"near"}, 
   ) { }
 
   ngOnInit(): void {

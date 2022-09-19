@@ -7,6 +7,7 @@ import { AdvancedComponent } from './advanced/advanced.component';
 import { InfoComponent } from './info/info.component';
 import { KnownComponent } from './known/known.component';
 import { RefsComponent } from './refs/refs.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -14,6 +15,7 @@ import { RefsComponent } from './refs/refs.component';
   declarations: [GeoreferencerComponent, AdvancedComponent, InfoComponent, KnownComponent, RefsComponent],
   imports: [
     CommonModule,
+    FormsModule,
     GeoreferencerRoutingModule,
     SharedModule,
   ]

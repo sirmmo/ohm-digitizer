@@ -8,5 +8,5 @@
         </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="save(data)">Ok</button>
+  <button mat-button [mat-dialog-close]="data.interpolation">Ok</button>
 </div>

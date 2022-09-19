@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./known.component.scss']
 })
 export class KnownComponent implements OnInit {
+  data = {named_place:'', is_gcp:true};
+  constructor() { 
 
-  constructor() { }
+  }
 
   ngOnInit(): void {
   }
